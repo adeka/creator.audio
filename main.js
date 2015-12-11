@@ -17,7 +17,7 @@ return  {
       69: { noteName: 'e', frequency:  c * (5/4), keyName: 'e', color: "white"},
 
       82: { noteName: 'f', frequency:  c * (4/3), keyName: 'r', color: "white"},
-        53: { noteName: 'f#', frequency: c * (25/24), keyName: '5', color: "black" },
+        53: { noteName: 'f#', frequency: c * (45/32), keyName: '5', color: "black" },
       84: { noteName: 'g', frequency: c * (3/2), keyName: 'y', color: "white"},
         54: { noteName: 'g#', frequency: c * (8/5), keyName: '6', color: "black" },
       89: { noteName: 'a', frequency: c * (5/3), keyName: 'u', color: "white"},
@@ -26,9 +26,9 @@ return  {
       //c2
       73: { noteName: 'c5', frequency: c * 2, keyName: 'o', color: "white"},
         57: { noteName: 'c#', frequency: c * 2 * (25/24), keyName: '8', color: "black" },
-      79: { noteName: 'd', frequency: 587.3, keyName: 'p', color: "white"},
-        58: { noteName: 'd#', frequency: c * 2 * (25/24), keyName: '9', color: "black" },
-      80: { noteName: 'e', frequency: 659.3, keyName: '{', color: "white"},
+      79: { noteName: 'd', frequency: c * 2 * (9/8), keyName: 'p', color: "white"},
+        58: { noteName: 'd#', frequency: c * 2  * (6/5), keyName: '9', color: "black" },
+      80: { noteName: 'e', frequency: c * 2 * (5/4), keyName: '{', color: "white"},
 
       /*
       65: { noteName: 'c4', frequency: c, keyName: 'a' },
@@ -46,12 +46,12 @@ return  {
 
 var notesByKeyCode = getNotes(261.625565);
 
-function Key(noteName, keyName, frequency) {
+function Key(noteName, keyName, frequency, color) {
     var keyHTML = document.createElement('div');
     var keySound = new Sound(frequency, 'triangle');
 
     /* Style the key */
-    keyHTML.className = 'key';
+    keyHTML.className = 'key '+color;
     keyHTML.innerHTML = noteName + '<br><span>' + keyName + '</span>';
 
     return {
@@ -102,7 +102,7 @@ function createKeyboard(notes, containerId) {
         var note = notes[keyCode];
 
         /* Generate playable key */
-        note.key = new Key(note.noteName, note.keyName, note.frequency);
+        note.key = new Key(note.noteName, note.keyName, note.frequency, note.color);
 
         /* Add new key to array to be sorted */
         sortedKeys.push(notes[keyCode]);

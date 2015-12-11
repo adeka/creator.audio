@@ -49,8 +49,14 @@ p {
     background: #ccc;
     border-radius: 0.4rem;
 }
+.white{
+
+}
+.black {
+  background-color: #444;
+}
 
 .playing {
-    background: #ddd;
+    //background: #ddd;
     margin-top: 2rem;
 }
