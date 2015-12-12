@@ -44,21 +44,16 @@ return  {
         'J': { noteName: 'd#', frequency: c * 4  * (6/5), keyName: 'J', color: "black" },
       'M': { noteName: 'e', frequency: c * 4 * (5/4), keyName: 'M', color: "white"},
 
-      /*
-      65: { noteName: 'c4', frequency: c, keyName: 'a' },
-      68: { noteName: 'e4', frequency: 329.6, keyName: 'd' },
-      70: { noteName: 'f4', frequency: 349.2, keyName: 'f' },
-      71: { noteName: 'g4', frequency: 392, keyName: 'g' },
-      72: { noteName: 'a4', frequency: 440, keyName: 'h' },
-      74: { noteName: 'b4', frequency: 493.9, keyName: 'j' },
-      75: { noteName: 'c5', frequency: 523.3, keyName: 'k' },
-      76: { noteName: 'd5', frequency: 587.3, keyName: 'l' },
-      186: { noteName: 'e5', frequency: 659.3, keyName: ';' }
-      */
+      188 : { noteName: 'f', frequency:  c * 4 * (4/3), keyName: ',', color: "white"},
+        'L': { noteName: 'f#', frequency: c * 4 * (45/32), keyName: 'L', color: "black" },
+      190: { noteName: 'g', frequency: c * 4 * (3/2), keyName: '.', color: "white"},
+        186: { noteName: 'g#', frequency: c * 4 * (8/5), keyName: ';', color: "black" },
+      191: { noteName: 'a', frequency: c * 4 * (5/3), keyName: '/', color: "white"},
+
   };
 }
 
-var notesByKeyCode = getNotes(261.626);
+var notesByKeyCode = getNotes(130.813);
 
 function Key(noteName, keyName, frequency, color) {
     var keyHTML = $('<div></div>');
@@ -136,29 +131,30 @@ function createKeyboard(notes, containerId) {
     }
 
     var playNote = function(event) {
-        var keyCode =String.fromCharCode(event.keyCode)
-
-
+        var keyCode = String.fromCharCode(event.keyCode);
         if(typeof notesByKeyCode[keyCode] !== 'undefined') {
             // Pipe sound to output (AKA speakers)
             notesByKeyCode[keyCode].key.sound.play();
-
             // Highlight key playing
             $(notesByKeyCode[keyCode].key.html).addClass('playing');
-
+        }
+        else if(typeof notesByKeyCode[event.keyCode] !== 'undefined'){
+            notesByKeyCode[event.keyCode].key.sound.play();
+            $(notesByKeyCode[event.keyCode].key.html).addClass('playing');
         }
     };
 
     var endNote = function(event) {
-        var keyCode =String.fromCharCode(event.keyCode)
-
-
+        var keyCode = String.fromCharCode(event.keyCode);
         if(typeof notesByKeyCode[keyCode] !== 'undefined') {
             // Kill connection to output
             notesByKeyCode[keyCode].key.sound.stop();
-
             // Remove key highlight
             $(notesByKeyCode[keyCode].key.html).removeClass('playing');
+        }
+        else if(typeof notesByKeyCode[event.keyCode] !== 'undefined'){
+            notesByKeyCode[event.keyCode].key.sound.stop();
+            $(notesByKeyCode[event.keyCode].key.html).removeClass('playing');
         }
     };
 
