@@ -23,40 +23,54 @@ p {
 }
 
 #keyboard {
-    width: 100%;
-    overflow: hidden;
+    width: 510px;
+    overflow: auto;
+    background-color: brown;
+    padding: 1em;
 }
 
 .key {
-    border: 1px solid #ccc;
-    background: #fff;
+    max-width:2em;
     border-radius: 0.7rem;
-    margin: 0 0.5%;
-    width: 9%;
+    width: 1.5em;
     padding: 3.5rem 0;
     text-align: center;
     float: left;
     text-transform: uppercase;
     transition: margin 150ms ease-in-out;
-    font-weight: bold;
 }
 
 .key span {
-    font-size: 1.8rem;
-    display: inline-block;
+    font-size: .5em;
     padding: 1rem;
-    margin-top: 1rem;
-    background: #ccc;
-    border-radius: 0.4rem;
+    margin-top:1em;
 }
 .white{
-
+    border: 1px solid #ccc;
+    background: #fff;
+    border-bottom: 7px solid #d5d5d5;
 }
 .black {
-  background-color: #444;
+    color: #bbb;
+    border: 1px solid #333;
+    background-color: #444;
+    position: relative;
+    bottom: .5em;
+    right: .75em;
+    line-height: 0;
+    margin-right: -2em;
+    border-bottom: 7px solid #333;
+}
+.black span{
+    position: relative;
+    top: .75em;
+}
+.white span{
+    position: relative;
+    top: 1.75em;
 }
 
 .playing {
-    //background: #ddd;
-    margin-top: 2rem;
+    margin-top: .2em;
+    box-shadow: inset -200px -200px 0px 200px rgba(0,0,0,0.2);
 }

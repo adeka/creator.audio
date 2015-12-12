@@ -10,25 +10,39 @@ var audioCtx = new (AudioContext || webkitAudioContext)();
 var getNotes = function(c){
 return  {
       //c1
-      81: { noteName: 'c4', frequency: c, keyName: 'q', color: "white"},
-        50: { noteName: 'c#', frequency: c * (25/24), keyName: '2', color: "black" },
-      87: { noteName: 'd', frequency: c * (9/8), keyName: '3', color: "white" },
-        51: { noteName: 'd#', frequency: c * (6/5), keyName: '3', color: "black" },
-      69: { noteName: 'e', frequency:  c * (5/4), keyName: 'e', color: "white"},
+      'Q': { noteName: 'c4', frequency: c, keyName: 'q', color: "white"},
+        '2': { noteName: 'c#', frequency: c * (25/24), keyName: '2', color: "black" },
+      'W': { noteName: 'd', frequency: c * (9/8), keyName: 'w', color: "white" },
+        '3': { noteName: 'd#', frequency: c * (6/5), keyName: '3', color: "black" },
+      'E': { noteName: 'e', frequency:  c * (5/4), keyName: 'e', color: "white"},
 
-      82: { noteName: 'f', frequency:  c * (4/3), keyName: 'r', color: "white"},
-        53: { noteName: 'f#', frequency: c * (45/32), keyName: '5', color: "black" },
-      84: { noteName: 'g', frequency: c * (3/2), keyName: 'y', color: "white"},
-        54: { noteName: 'g#', frequency: c * (8/5), keyName: '6', color: "black" },
-      89: { noteName: 'a', frequency: c * (5/3), keyName: 'u', color: "white"},
-        55: { noteName: 'a#', frequency: c * (9/5), keyName: '7', color: "black" },
-      85: { noteName: 'b', frequency:  c * (15/8), keyName: 'i', color: "white"},
+      'R': { noteName: 'f', frequency:  c * (4/3), keyName: 'r', color: "white"},
+        '5': { noteName: 'f#', frequency: c * (45/32), keyName: '5', color: "black" },
+      'T': { noteName: 'g', frequency: c * (3/2), keyName: 't', color: "white"},
+        '6': { noteName: 'g#', frequency: c * (8/5), keyName: '6', color: "black" },
+      'Y': { noteName: 'a', frequency: c * (5/3), keyName: 'y', color: "white"},
+        '7': { noteName: 'a#', frequency: c * (9/5), keyName: '7', color: "black" },
+      'U': { noteName: 'b', frequency:  c * (15/8), keyName: 'u', color: "white"},
       //c2
-      73: { noteName: 'c5', frequency: c * 2, keyName: 'o', color: "white"},
-        57: { noteName: 'c#', frequency: c * 2 * (25/24), keyName: '8', color: "black" },
-      79: { noteName: 'd', frequency: c * 2 * (9/8), keyName: 'p', color: "white"},
-        58: { noteName: 'd#', frequency: c * 2  * (6/5), keyName: '9', color: "black" },
-      80: { noteName: 'e', frequency: c * 2 * (5/4), keyName: '{', color: "white"},
+      'I': { noteName: 'c5', frequency: c * 2, keyName: 'i', color: "white"},
+        '9': { noteName: 'c#', frequency: c * 2 * (25/24), keyName: '9', color: "black" },
+      'O': { noteName: 'd', frequency: c * 2 * (9/8), keyName: 'o', color: "white"},
+        '0': { noteName: 'd#', frequency: c * 2  * (6/5), keyName: '0', color: "black" },
+      'P': { noteName: 'e', frequency: c * 2 * (5/4), keyName: 'p', color: "white"},
+
+      'Z': { noteName: 'f', frequency:  c * 2 * (4/3), keyName: 'Z', color: "white"},
+        'S': { noteName: 'f#', frequency: c * 2 * (45/32), keyName: 'S', color: "black" },
+      'X': { noteName: 'g', frequency: c * 2 * (3/2), keyName: 'X', color: "white"},
+        'D': { noteName: 'g#', frequency: c * 2 * (8/5), keyName: 'D', color: "black" },
+      'C': { noteName: 'a', frequency: c * 2 * (5/3), keyName: 'C', color: "white"},
+        'F': { noteName: 'a#', frequency: c * 2 * (9/5), keyName: 'F', color: "black" },
+      'V': { noteName: 'b', frequency:  c * 2 * (15/8), keyName: 'V', color: "white"},
+      //c2
+      'B': { noteName: 'c6', frequency: c * 4, keyName: 'B', color: "white"},
+        'H': { noteName: 'c#', frequency: c * 4 * (25/24), keyName: 'H', color: "black" },
+      'N': { noteName: 'd', frequency: c * 4 * (9/8), keyName: 'N', color: "white"},
+        'J': { noteName: 'd#', frequency: c * 4  * (6/5), keyName: 'J', color: "black" },
+      'M': { noteName: 'e', frequency: c * 4 * (5/4), keyName: 'M', color: "white"},
 
       /*
       65: { noteName: 'c4', frequency: c, keyName: 'a' },
@@ -44,16 +58,16 @@ return  {
   };
 }
 
-var notesByKeyCode = getNotes(261.625565);
+var notesByKeyCode = getNotes(261.626);
 
 function Key(noteName, keyName, frequency, color) {
-    var keyHTML = document.createElement('div');
+    var keyHTML = $('<div></div>');
     var keySound = new Sound(frequency, 'triangle');
 
     /* Style the key */
-    keyHTML.className = 'key '+color;
-    keyHTML.innerHTML = noteName + '<br><span>' + keyName + '</span>';
-
+    $(keyHTML).addClass('key ' + color);
+    var inner = $('<br><span>' + keyName + '</span>');
+    $(keyHTML).append(inner);
     return {
         html: keyHTML,
         sound: keySound
@@ -118,31 +132,33 @@ function createKeyboard(notes, containerId) {
 
     // Add those sorted keys to DOM
     for(var i = 0; i < sortedKeys.length; i++) {
-        document.getElementById(containerId).appendChild(sortedKeys[i].key.html);
+        $(containerId).append(sortedKeys[i].key.html);
     }
 
     var playNote = function(event) {
-        var keyCode = event.keyCode;
+        var keyCode =String.fromCharCode(event.keyCode)
+
 
         if(typeof notesByKeyCode[keyCode] !== 'undefined') {
             // Pipe sound to output (AKA speakers)
             notesByKeyCode[keyCode].key.sound.play();
 
             // Highlight key playing
-            notesByKeyCode[keyCode].key.html.className = 'key playing';
+            $(notesByKeyCode[keyCode].key.html).addClass('playing');
+
         }
     };
 
     var endNote = function(event) {
-        var keyCode = event.keyCode;
-        console.log("playing");
+        var keyCode =String.fromCharCode(event.keyCode)
+
 
         if(typeof notesByKeyCode[keyCode] !== 'undefined') {
             // Kill connection to output
             notesByKeyCode[keyCode].key.sound.stop();
 
             // Remove key highlight
-            notesByKeyCode[keyCode].key.html.className = 'key';
+            $(notesByKeyCode[keyCode].key.html).removeClass('playing');
         }
     };
 
@@ -158,11 +174,32 @@ function createKeyboard(notes, containerId) {
     // Check for changes in the waveform selector and update all oscillators with the selected type
     waveFormSelector.addEventListener('change', setWaveform);
 
-    window.addEventListener('keydown', playNote);
-    window.addEventListener('keyup', endNote);
+    $("html").keydown(function( event ) {
+        /*
+      if ( event.which == "space" ) {
+       event.preventDefault();
+      }
+      */
+      playNote(event);
+      //console.log(String.fromCharCode(event.keyCode));
+    });
+    $("html").keyup(function( event ) {
+        /*
+      if ( event.which == "space" ) {
+       event.preventDefault();
+      }
+      */
+      endNote(event);
+      //console.log(String.fromCharCode(event.keyCode));
+    });
+
+    //window.addEventListener('keydown', playNote);
+    //window.addEventListener('keyup', endNote);
 }
 
+
+
 window.addEventListener('load', function() {
-    createKeyboard(notesByKeyCode, 'keyboard');
+    createKeyboard(notesByKeyCode, '#keyboard');
 });
 })();
